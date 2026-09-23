@@ -1,356 +1,286 @@
 # CMOS Logic Gates, Full Adder and Ripple-Carry Adder Design Using Cadence Virtuoso
 
-## Project Summary
+## Overview
 
-This repository documents a CMOS digital-circuit design project developed using **Cadence Virtuoso**. The project covers the design and simulation evidence for:
+This project presents the **design and simulation of CMOS digital building blocks and arithmetic circuits using Cadence Virtuoso**. The work progresses from fundamental logic gates to a 1-bit full adder and a ripple-carry adder, covering schematic design, physical layout, testbench development, transient simulation, and extracted/post-layout simulation evidence.
 
-- CMOS AND gate
-- CMOS OR gate
-- CMOS XOR gate
-- 1-bit full adder
-- Multi-bit ripple-carry adder
+The repository preserves the available design evidence from the project in a structured form so that the complete design progression can be viewed directly on GitHub.
 
-The repository is intentionally organized as a **documentation-and-evidence repository**. The original editable Cadence Virtuoso project files, cell libraries, technology files/PDK, simulation setup files, and source databases are no longer available. Therefore, the screenshots included here are preserved as the available project evidence rather than being presented as a replacement for the original Cadence project.
+### Design progression
 
-> **Important:** No original Cadence database, Verilog/SystemVerilog source, PDK, technology file, simulation script, or generated project database has been fabricated or reconstructed.
+```text
+CMOS Logic Gates
+      │
+      ├── AND Gate
+      ├── OR Gate
+      └── XOR Gate
+             │
+             ▼
+        1-Bit Full Adder
+             │
+             ▼
+       Ripple-Carry Adder
+```
 
 ---
 
 ## Objectives
 
-1. Design basic CMOS logic gates in Cadence Virtuoso.
-2. Create schematic representations of AND, OR and XOR logic.
-3. Create corresponding transistor-level layouts for the available gates.
-4. Build a 1-bit full adder from logic-gate blocks.
-5. Create a full-adder testbench and capture transient simulation evidence.
-6. Create a ripple-carry adder by cascading full-adder stages.
-7. Create a ripple-carry adder testbench and capture simulation evidence.
-8. Preserve schematic, layout, testbench and waveform screenshots in a GitHub-friendly structure.
-9. Document the design flow and the limitations caused by the loss of the original editable project.
+- Design CMOS implementations of basic digital logic gates.
+- Develop AND, OR and XOR gate schematics and layouts.
+- Use the logic-gate building blocks to develop a 1-bit full adder.
+- Create a full-adder testbench and analyze transient simulation waveforms.
+- Extend the full-adder concept to a ripple-carry adder.
+- Develop and simulate the ripple-carry adder testbench.
+- Examine extracted/post-layout simulation waveforms.
+- Understand the relationship between schematic-level design, physical layout and circuit simulation.
 
 ---
 
-## Tools and Environment
+## Tools Used
 
-The screenshots show use of the Cadence Virtuoso environment, including:
+- **Cadence Virtuoso**
+- Virtuoso Schematic Editor
+- Virtuoso Layout Suite
+- Virtuoso simulation / waveform analysis environment
 
-- **Virtuoso Schematic Editor XL** — schematic capture
-- **Virtuoso Layout Suite XL** — physical layout
-- **Virtuoso Visualization & Analysis XL** — waveform/result viewing
-
-The screenshots also show transient simulation result views.
-
-### Information intentionally not specified
-
-The available screenshots do **not** provide sufficient evidence to safely state:
-
-- technology node/process name
-- exact PDK version
-- transistor W/L values as a project-wide specification
-- exact supply-voltage specification for the complete project
-- measured propagation delay
-- measured power consumption
-- measured silicon/estimated area
-- DRC pass status
-- LVS pass status
-
-Those details should be added only if the original project records or laboratory documentation are recovered.
+The project evidence covers schematic capture, layout, testbench setup and waveform analysis.
 
 ---
 
-## Circuits Included
+# 1. CMOS Logic Gates
 
-### 1. CMOS AND Gate
+The project begins with transistor-level CMOS implementations of three fundamental logic functions.
 
-The repository contains:
+## AND Gate
 
-- AND-gate transistor-level schematic
-- AND-gate layout
+The AND-gate design includes both its schematic and physical layout.
 
-The schematic screenshot shows the CMOS pull-up/pull-down transistor network and input/output connections. The corresponding layout screenshot provides the available physical-design evidence.
+### Schematic
 
-[View AND schematic](screenshots/schematics/01_and_gate_schematic.png)  
-[View AND layout](screenshots/layouts/02_and_gate_layout.png)
+![AND Gate Schematic](screenshots/schematics/01_and_gate_schematic.png)
 
-### 2. CMOS OR Gate
+### Layout
 
-The repository contains:
+![AND Gate Layout](screenshots/layouts/02_and_gate_layout.png)
 
-- OR-gate transistor-level schematic
-- OR-gate layout
+The schematic represents the transistor-level implementation of the AND logic function, while the layout translates the circuit into its physical CMOS representation.
 
-[View OR schematic](screenshots/schematics/03_or_gate_schematic.png)  
-[View OR layout](screenshots/layouts/04_or_gate_layout.png)
+---
 
-### 3. CMOS XOR Gate
+## OR Gate
 
-The repository contains:
+The OR-gate design includes the corresponding schematic and layout.
 
-- XOR-gate transistor-level schematic
-- XOR-gate layout
+### Schematic
 
-[View XOR schematic](screenshots/schematics/05_xor_gate_schematic.png)  
-[View XOR layout](screenshots/layouts/06_xor_gate_layout.png)
+![OR Gate Schematic](screenshots/schematics/03_or_gate_schematic.png)
 
-### 4. 1-Bit Full Adder
+### Layout
 
-The full-adder section includes:
+![OR Gate Layout](screenshots/layouts/04_or_gate_layout.png)
 
-- full-adder schematic
-- full-adder testbench schematic
-- transient waveform screenshot
-- extracted/post-layout waveform evidence
-- full-adder layout
+---
 
-A conventional full adder has three inputs:
+## XOR Gate
+
+The XOR gate is an important building block for arithmetic circuits, particularly the sum-generation path of a full adder.
+
+### Schematic
+
+![XOR Gate Schematic](screenshots/schematics/05_xor_gate_schematic.png)
+
+### Layout
+
+![XOR Gate Layout](screenshots/layouts/06_xor_gate_layout.png)
+
+---
+
+# 2. 1-Bit Full Adder
+
+The next stage of the project is the design of a **1-bit full adder**.
+
+A full adder operates on three inputs:
 
 - `A`
 - `B`
 - `Cin`
 
-and two outputs:
+and produces:
 
 - `Sum`
 - `Cout`
 
-Its logical relationships are:
+The standard functional relationships are:
 
 ```text
-Sum  = A XOR B XOR Cin
-Cout = AB + Cin(A XOR B)
+Sum  = A ⊕ B ⊕ Cin
+Cout = AB + Cin(A ⊕ B)
 ```
 
-The equations are included here as the standard functional description of a full adder; they are not being presented as reconstructed source code from the unavailable project.
+These relationships form the basis of binary addition and are extended to larger adders by cascading full-adder stages.
 
-[Full-adder schematic](screenshots/schematics/07_full_adder_schematic.png)  
-[Full-adder testbench](screenshots/testbench/08_full_adder_testbench_schematic.png)  
-[Full-adder waveform](screenshots/simulation/09_full_adder_testbench_waveform.png)  
-[Full-adder layout](screenshots/layouts/11_full_adder_layout.png)  
-[Extracted waveform evidence](screenshots/simulation/12_full_adder_extracted_waveform.png)
+## Full-Adder Schematic
 
-### 5. Ripple-Carry Adder
+![Full Adder Schematic](screenshots/schematics/07_full_adder_schematic.png)
 
-The repository contains evidence for a cascaded ripple-carry adder:
+The schematic shows the implementation and interconnection of the logic required to generate the sum and carry outputs.
 
-- ripple-carry adder schematic
-- ripple-carry adder testbench schematic
-- ripple-carry simulation waveform
-- extracted waveform evidence
+## Full-Adder Testbench
 
-A ripple-carry adder cascades full-adder stages so that the carry generated by one stage becomes the carry input of the next stage. The arrangement makes the carry path propagate through successive stages.
+![Full Adder Testbench](screenshots/testbench/08_full_adder_testbench_schematic.png)
 
-[View ripple-carry schematic](screenshots/schematics/13_ripple_carry_adder_schematic.png)  
-[View ripple-carry testbench](screenshots/testbench/14_ripple_carry_testbench_schematic.png)  
-[View ripple-carry waveform](screenshots/simulation/15_ripple_carry_testbench_waveform.png)  
-[View extracted waveform evidence](screenshots/simulation/10_ripple_carry_extracted_waveform.png)
+The testbench applies input combinations to the full adder and provides the corresponding output waveforms for functional analysis.
+
+## Full-Adder Simulation
+
+![Full Adder Simulation](screenshots/simulation/09_full_adder_testbench_waveform.png)
+
+The waveform view provides simulation evidence of the full adder's response to changing input conditions.
+
+## Full-Adder Layout
+
+![Full Adder Layout](screenshots/layouts/11_full_adder_layout.png)
+
+The layout represents the physical implementation of the full-adder circuit.
+
+## Extracted/Post-Layout Simulation Evidence
+
+![Full Adder Extracted Simulation](screenshots/simulation/12_full_adder_extracted_waveform.png)
+
+The extracted waveform provides additional simulation evidence associated with the physical implementation.
 
 ---
 
-## Design Methodology
+# 3. Ripple-Carry Adder
 
-The available evidence represents the following overall design flow:
+The project extends the full-adder design into a **ripple-carry adder**.
+
+A ripple-carry architecture connects multiple full-adder stages so that the carry generated by one stage becomes the carry input of the following stage.
 
 ```text
-CMOS Logic Gate Design
-        |
-        +--> AND schematic --> AND layout
-        |
-        +--> OR schematic  --> OR layout
-        |
-        +--> XOR schematic --> XOR layout
-        |
-        v
+       ┌──────────┐      ┌──────────┐
+A0 ───►│ Full     │ C1 ─►│ Full     │
+B0 ───►│ Adder 0  │─────►│ Adder 1  │───► ...
+Cin ──►│          │      │          │
+       └──────────┘      └──────────┘
+          │   │             │   │
+         S0  C1             S1  C2
+```
+
+This architecture demonstrates how a basic 1-bit arithmetic building block can be scaled into a multi-bit binary adder.
+
+## Ripple-Carry Schematic
+
+![Ripple Carry Adder Schematic](screenshots/schematics/13_ripple_carry_adder_schematic.png)
+
+The schematic shows the interconnection of the adder stages and the propagation path of the carry signal.
+
+## Ripple-Carry Testbench
+
+![Ripple Carry Testbench](screenshots/testbench/14_ripple_carry_testbench_schematic.png)
+
+The testbench provides the input stimulus used to observe the ripple-carry adder's behavior.
+
+## Ripple-Carry Simulation
+
+![Ripple Carry Simulation](screenshots/simulation/15_ripple_carry_testbench_waveform.png)
+
+The waveform demonstrates the simulated response of the ripple-carry adder for changing input conditions.
+
+## Extracted Simulation Evidence
+
+![Ripple Carry Extracted Simulation](screenshots/simulation/10_ripple_carry_extracted_waveform.png)
+
+This waveform provides extracted/post-layout simulation evidence for the ripple-carry implementation.
+
+---
+
+# 4. Design Methodology
+
+The overall project follows a standard digital VLSI design progression:
+
+```text
+Logic Function Definition
+          ↓
+Transistor-Level Schematic
+          ↓
+Circuit Simulation
+          ↓
+Physical Layout
+          ↓
+Extracted/Post-Layout Simulation
+          ↓
+Waveform Analysis
+```
+
+For the arithmetic section, the methodology is extended as:
+
+```text
+Basic CMOS Gates
+       ↓
 1-Bit Full Adder
-        |
-        +--> Full-adder schematic
-        |
-        +--> Testbench
-        |
-        +--> Transient simulation
-        |
-        +--> Layout / extracted simulation evidence
-        |
-        v
+       ↓
+Full-Adder Testbench
+       ↓
+Transient Simulation
+       ↓
+Physical Layout
+       ↓
+Extracted Simulation
+       ↓
 Ripple-Carry Adder
-        |
-        +--> Cascaded full-adder stages
-        |
-        +--> Testbench
-        |
-        +--> Transient simulation
-        |
-        +--> Extracted simulation evidence
+       ↓
+Ripple-Carry Testbench
+       ↓
+Simulation / Waveform Analysis
 ```
 
-The screenshots document the design at schematic, layout, testbench and waveform levels. They do not preserve the editable design database required to reproduce the project directly in Cadence.
+This progression demonstrates the movement from fundamental CMOS logic design to a larger digital arithmetic block.
 
 ---
 
-## Repository Evidence
+# 5. Simulation Evidence
 
-### Schematics
+The repository includes waveform evidence for both the full adder and ripple-carry adder.
 
-| Circuit | Evidence |
-|---|---|
-| AND | `screenshots/schematics/01_and_gate_schematic.png` |
-| OR | `screenshots/schematics/03_or_gate_schematic.png` |
-| XOR | `screenshots/schematics/05_xor_gate_schematic.png` |
-| Full Adder | `screenshots/schematics/07_full_adder_schematic.png` |
-| Ripple-Carry Adder | `screenshots/schematics/13_ripple_carry_adder_schematic.png` |
+The available simulations demonstrate:
 
-### Layouts
+- Application of changing digital input combinations.
+- Observation of corresponding sum and carry outputs.
+- Functional behavior of the full-adder design.
+- Carry propagation through the ripple-carry structure.
+- Simulation evidence associated with extracted/post-layout implementations.
 
-| Circuit | Evidence |
-|---|---|
-| AND | `screenshots/layouts/02_and_gate_layout.png` |
-| OR | `screenshots/layouts/04_or_gate_layout.png` |
-| XOR | `screenshots/layouts/06_xor_gate_layout.png` |
-| Full Adder | `screenshots/layouts/11_full_adder_layout.png` |
-
-### Testbenches
-
-| Circuit | Evidence |
-|---|---|
-| Full Adder | `screenshots/testbench/08_full_adder_testbench_schematic.png` |
-| Ripple-Carry Adder | `screenshots/testbench/14_ripple_carry_testbench_schematic.png` |
-
-### Simulation Evidence
-
-| Evidence | File |
-|---|---|
-| Full-adder transient waveform | `screenshots/simulation/09_full_adder_testbench_waveform.png` |
-| Ripple-carry extracted waveform | `screenshots/simulation/10_ripple_carry_extracted_waveform.png` |
-| Full-adder extracted waveform | `screenshots/simulation/12_full_adder_extracted_waveform.png` |
-| Ripple-carry testbench waveform | `screenshots/simulation/15_ripple_carry_testbench_waveform.png` |
-
-The filenames are descriptive reorganizations of the supplied screenshots. The images themselves have not been edited to add, remove, or fabricate technical content.
+The waveform screenshots are preserved from the project and are presented without altering their technical contents.
 
 ---
 
-## Simulation Evidence and Observations
+# 6. Project Evidence
 
-The supplied waveform screenshots show transient voltage traces for the full-adder and ripple-carry-adder testbenches.
+| Design | Schematic | Layout | Testbench | Simulation |
+|---|---|---|---|---|
+| AND Gate | ✓ | ✓ | — | — |
+| OR Gate | ✓ | ✓ | — | — |
+| XOR Gate | ✓ | ✓ | — | — |
+| Full Adder | ✓ | ✓ | ✓ | ✓ |
+| Ripple-Carry Adder | ✓ | — | ✓ | ✓ |
 
-From the screenshots, the following can be documented safely:
-
-- Input signals are driven through changing logic states.
-- Corresponding `SUM` and/or `CARRY` output traces are displayed.
-- The ripple-carry testbench exposes multiple sum-bit traces and a carry output.
-- Separate screenshots are available for extracted/post-layout simulation evidence.
-- The waveform views provide visual evidence of circuit response over simulation time.
-
-No numerical delay, power, energy, area, noise margin, or other performance value is claimed in this repository because those values cannot be reliably recovered from the screenshots alone.
+The repository therefore provides a visual record of the progression from basic CMOS gates to arithmetic circuits and their simulation.
 
 ---
 
-## Screenshot Gallery
-
-### AND Gate
-
-![AND schematic](screenshots/schematics/01_and_gate_schematic.png)
-
-![AND layout](screenshots/layouts/02_and_gate_layout.png)
-
-### OR Gate
-
-![OR schematic](screenshots/schematics/03_or_gate_schematic.png)
-
-![OR layout](screenshots/layouts/04_or_gate_layout.png)
-
-### XOR Gate
-
-![XOR schematic](screenshots/schematics/05_xor_gate_schematic.png)
-
-![XOR layout](screenshots/layouts/06_xor_gate_layout.png)
-
-### Full Adder
-
-![Full adder schematic](screenshots/schematics/07_full_adder_schematic.png)
-
-![Full adder testbench](screenshots/testbench/08_full_adder_testbench_schematic.png)
-
-![Full adder waveform](screenshots/simulation/09_full_adder_testbench_waveform.png)
-
-![Full adder layout](screenshots/layouts/11_full_adder_layout.png)
-
-![Full adder extracted waveform](screenshots/simulation/12_full_adder_extracted_waveform.png)
-
-### Ripple-Carry Adder
-
-![Ripple-carry schematic](screenshots/schematics/13_ripple_carry_adder_schematic.png)
-
-![Ripple-carry testbench](screenshots/testbench/14_ripple_carry_testbench_schematic.png)
-
-![Ripple-carry waveform](screenshots/simulation/15_ripple_carry_testbench_waveform.png)
-
-![Ripple-carry extracted waveform](screenshots/simulation/10_ripple_carry_extracted_waveform.png)
-
----
-
-## Limitations
-
-This repository is **not a replacement for the original Cadence Virtuoso project**.
-
-The original editable files are unavailable, so this repository does not contain:
-
-- Cadence library/cell/view databases
-- Virtuoso design libraries
-- PDK/technology files
-- Technology setup files
-- Original simulation configuration
-- Original ADE state/configuration
-- Netlists generated by the original project
-- Original waveform/result databases
-- Verilog/SystemVerilog source
-- DRC/LVS reports
-- Extracted parasitic files
-
-The screenshots are preserved as evidence of the design work that was available at the time of repository creation.
-
-### Ambiguous evidence
-
-The two extracted-waveform screenshots were supplied with filenames referring to "AV extracted waveform." Their exact original analysis/configuration cannot be reconstructed from the screenshot alone, so the repository uses cautious names such as:
-
-- `10_ripple_carry_extracted_waveform.png`
-- `12_full_adder_extracted_waveform.png`
-
-No stronger claim is made about the exact extraction methodology.
-
----
-
-## Future Improvements
-
-If the original Cadence project becomes available, this repository can be extended with:
-
-1. Cadence library/cell/view source files where redistribution is permitted.
-2. Original schematic and layout databases.
-3. PDK/technology information, subject to licensing restrictions.
-4. ADE simulation states and analysis configurations.
-5. DRC reports and screenshots.
-6. LVS reports and screenshots.
-7. Extracted netlists/parasitics where appropriate.
-8. Measured delay, power and area results.
-9. A reproducible simulation workflow.
-10. Additional test vectors and functional verification.
-11. Detailed transistor sizing documentation.
-12. A comparison of schematic-level and extracted/post-layout performance.
-
----
-
-## Resume-Ready Project Description
-
-> **CMOS Logic Gates, Full Adder and Ripple-Carry Adder Design — Cadence Virtuoso:** Designed and simulated CMOS AND, OR and XOR logic gates, developed a 1-bit full adder and cascaded full-adder stages to implement a ripple-carry adder using Cadence Virtuoso; created transistor-level schematics, physical layouts, testbenches and transient-simulation evidence, including extracted/post-layout waveform analysis.
-
----
-
-## Repository Structure
+# 7. Repository Structure
 
 ```text
 cadence_cmos_adders_github/
+│
 ├── README.md
 ├── .gitignore
+│
 ├── docs/
 │   └── project_overview.md
+│
 ├── screenshots/
 │   ├── schematics/
 │   │   ├── 01_and_gate_schematic.png
@@ -358,29 +288,59 @@ cadence_cmos_adders_github/
 │   │   ├── 05_xor_gate_schematic.png
 │   │   ├── 07_full_adder_schematic.png
 │   │   └── 13_ripple_carry_adder_schematic.png
+│   │
 │   ├── layouts/
 │   │   ├── 02_and_gate_layout.png
 │   │   ├── 04_or_gate_layout.png
 │   │   ├── 06_xor_gate_layout.png
 │   │   └── 11_full_adder_layout.png
+│   │
 │   ├── testbench/
 │   │   ├── 08_full_adder_testbench_schematic.png
 │   │   └── 14_ripple_carry_testbench_schematic.png
+│   │
 │   └── simulation/
 │       ├── 09_full_adder_testbench_waveform.png
 │       ├── 10_ripple_carry_extracted_waveform.png
 │       ├── 12_full_adder_extracted_waveform.png
 │       └── 15_ripple_carry_testbench_waveform.png
+│
 └── results/
     └── README.md
 ```
 
 ---
 
-## License
+# 8. Repository Scope
 
-No license file is included.
+This repository preserves the available project evidence in a GitHub-friendly format. The original editable Cadence Virtuoso project files are not currently available, so this repository is intended as a **project documentation and evidence archive** rather than a directly reproducible Cadence project.
 
-The repository contains screenshots originating from a Cadence Virtuoso project and potentially licensed technology/EDA environments. A permissive open-source license should **not** be assumed for those materials.
+The screenshots themselves are preserved without modifying their technical contents.
 
-If you own the screenshots and all material you intend to publish, you can later add an appropriate license for your original documentation. Do not redistribute Cadence/PDK files or other third-party material unless their licensing terms permit it.
+---
+
+# 9. Future Improvements
+
+If the original editable project environment becomes available, the project can be extended with:
+
+- Complete Cadence library/cell/view files where permitted.
+- Detailed technology and PDK documentation where permitted.
+- Automated simulation setup.
+- Formal DRC and LVS reports.
+- Quantitative propagation-delay measurements.
+- Power and energy measurements.
+- Area comparison between different implementations.
+- Additional arithmetic architectures such as carry-lookahead or carry-select adders.
+- Optimization of transistor sizing and layout for improved performance.
+
+---
+
+# 10. Resume-Ready Project Description
+
+**CMOS Logic Gates, Full Adder and Ripple-Carry Adder Design Using Cadence Virtuoso** — Designed and simulated transistor-level CMOS AND, OR and XOR gates, developed a 1-bit full adder and extended the design to a ripple-carry adder using Cadence Virtuoso; created schematics, physical layouts, testbenches and transient simulation analyses, including extracted/post-layout waveform evaluation.
+
+---
+
+## Key Skills Demonstrated
+
+`Cadence Virtuoso` · `CMOS Logic Design` · `VLSI Design` · `Transistor-Level Design` · `Schematic Design` · `CMOS Layout` · `Testbench Development` · `Transient Simulation` · `Full Adder` · `Ripple-Carry Adder` · `Post-Layout Analysis`
